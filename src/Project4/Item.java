@@ -28,7 +28,7 @@ package Project4;
             System.out.println("Shopid:"+a.shopid+"\n");
             System.out.println("factoryid:"+a.factoryid+"\n");
             System.out.println("price:"+a.price+"$\n");
-            System.out.println("Still have:"+a.numbers+"pieces");
+            System.out.println("Still have:"+a.numbers+" pieces");
 
         }
     }
