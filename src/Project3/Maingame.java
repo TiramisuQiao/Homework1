@@ -8,7 +8,7 @@ public class Maingame {
 		ch.injure(0.5f);
 		ch.heal(0.5f);
 		ch.heal(0.01f);
-		ch.change(1f);
+		ch.change(10f);
 		System.out.println(ch.tochString());
 	}
 }

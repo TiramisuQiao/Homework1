@@ -1,112 +1,147 @@
 package Project1;
-public class Fraction {
-    private int upnum = 0;
-    private int downnum = 0;
-    private int sgn = 1;
-    private int checkVaild(int upnum,int downnum) {
-        if (upnum > downnum || downnum ==0) {
-            return -1;
-        }else if(upnum == 0){
-            return 2;
-        }else if (upnum == downnum) {
-            return 0;
-        }
-        return 1;
+
+public class Fraction implements FractionInterface
+{
+    private int Num;
+    private int Denom;
+    private int gcd(int num1, int num2)
+    {
+        int result;
+
+        num1 = Math.abs(num1);
+        num2 = Math.abs(num2);
+
+        if (num1 % num2 == 0)
+            result = num2;
+        else
+            result = gcd(num2, num1 % num2);
+
+        return result;
+    }
+    private void simplified()
+    {
+        int GCD = gcd(Num, Denom);
+        Num/=GCD;
+        Denom/=GCD;
     }
 
-    public int gcd(int a,int b) {
-        int r;
-        while(b>0) {
-            r=a%b;
-            a=b;
-            b=r;
-        }
-        return a;
+    /** Constructor: set the default number of the fraction  */
+    public Fraction()
+    {
+        Num = 1;
+        Denom = 1;
     }
-    public void SetFrac(String Equation) {
-        int len = Equation.length();
-        int i = 0;
-        int flag = 0;
-        while (i < len) {
-            if (Equation.charAt(i) == '-' && flag == 0) {
-                sgn = -1;
-                i++;
-                flag = 1;
-            } else if(Equation.charAt(i) != '-' && flag == 0){
-                sgn = 1;
-                flag = 1;
-            }
-            if (Equation.charAt(i) != '/' && flag == 1) {
-                upnum = upnum * 10 + Equation.charAt(i) - '0';
-                i++;
-            }
-            if (Equation.charAt(i) == '/') {
-                i++;
-                flag = 2;
-            }
-            if (flag == 2) {
-                downnum = downnum * 10 + Equation.charAt(i) - '0';
-                i++;
-            }
+    /**
+     * Constructor:
+     * @param Num the numerator of the fraction
+     * @param Denom the denominator of the fraction
+     * @return the Fraction that should be initialized
+     * @throws NullPointerException if Num == 0
+     */
+    public Fraction(int Num, int Denom) {
+        if (Num == 0) {
+            System.out.println("Wrong input");
+        } else {
+            this.Num = Num;
+            this.Denom = Denom;
+        }
+    }
 
-        }
-        int vaildNum = checkVaild(upnum,downnum);
-        if(vaildNum == -1){
-            System.out.println("Wrong Input");
-        }
-        if(vaildNum == 0 ){
-            System.out.println(sgn);
-        }
-        if(vaildNum == 2){
-            System.out.println("0");
-        }
-        if(vaildNum == 1){
-            int division=gcd(downnum,upnum);
-            upnum = upnum / division;
-            downnum = downnum / division;
-            System.out.println(sgn*upnum+"/"+downnum);
-        }
-        upnum = upnum * sgn;
+    /** Adds two fractions.
+     * @param frac1 A Fraction to be added to this fraction.
+     * @return A Fraction containing the summation of two fractions.
+     */
+    public Fraction add(Fraction frac1)
+    {
+        int resDenom = Denom * frac1.Denom;
+        int resNum = Num * frac1.Denom + frac1.Num*Denom;
+        Fraction res = new Fraction(resNum,resDenom);
+        return res;
     }
-    public void addTwoFrac(Fraction A,Fraction B){
-        String upResult =  String.valueOf(A.upnum * B.downnum + B.upnum * A.downnum);
-        String downResult =String.valueOf(A.downnum * B.downnum);
-        String input=upResult+"/"+downResult;
-        SetFrac(input);
 
+    /** Subtracts two fractions.
+     * @param frac1 A Fraction to be subtracted from this fraction.
+     * @return A Fraction containing the subtraction of two fractions.
+     */
+    public Fraction subtract(Fraction frac1)
+    {
+        int resDenom = Denom * frac1.Denom;
+        int resNum = Num * frac1.Denom  - frac1.Num*Denom;
+        Fraction res = new Fraction(resNum,resDenom);
+        return res;
     }
-    public void minusTwoFrac(Fraction A,Fraction B){
-        String upResult =  String.valueOf(A.upnum * B.downnum - B.upnum * A.downnum);
-        String downResult =String.valueOf(A.downnum * B.downnum);
-        String input=upResult+"/"+downResult;
-        SetFrac(input);
 
-    }
-    public void multiTwoFrac(Fraction A,Fraction B){
-        String upResult =  String.valueOf(A.upnum * B.upnum);
-        String downResult =String.valueOf(A.downnum * B.downnum);
-        String input=upResult+"/"+downResult;
-        SetFrac(input);
+    /** Multiply two fractions.
+     * @param frac1 A Fraction to be multiplied to this fraction.
+     * @return A Fraction containing the multiplication of two fractions.
+     */
+    public Fraction multiply(Fraction frac1)
+    {
+        int resDenom = Denom * frac1.Denom;
+        int resNum = Num * frac1.Num;
+        Fraction res = new Fraction(resNum,resDenom);
+        return res;
+    } // end multiply
 
+    /** Divides two fractions.
+     * @param frac1 A Fraction by which this fraction is to be divided.
+     * @return A Fraction containing the division of two fractions.
+     */
+    public Fraction divide(Fraction frac1)
+    {
+        int resDenom = Denom * frac1.Num;
+        int resNum = Num * frac1.Denom;
+        Fraction res = new Fraction(resNum,resDenom);
+        return res;
     }
-    public void divTwoFrac(Fraction A,Fraction B){
-        String upResult =  String.valueOf(A.upnum / B.upnum);
-        String downResult =String.valueOf(A.downnum / B.downnum);
-        String input=upResult+"/"+downResult;
-        SetFrac(input);
 
+    /** Returns reciprocal of this fraction.
+     * @return A Fraction containing a reciprocal of this fraction.
+     */
+    public Fraction reciprocal()
+    {
+        if(Denom == 0){
+            System.out.println("No reciprocal");
+        }else{
+            Fraction res = new Fraction(Denom,Num);
+            return res;
+        }
+        return null;
     }
-    public float Inverse1(){
-        return (float) downnum/upnum;
-    }
-    public int Compare(Fraction K){
-        if(upnum * K.downnum - K.upnum * downnum - downnum*K.downnum > 0){
+
+    /** Returns an integer.
+     * 1: this > frac1,
+     * 0: this = frac1,
+     * -1: this < frac1
+     * @param frac1 A Fraction to be compared
+     * @return an ingeter depending on the condition
+     */
+    public int compare(Fraction frac1)
+    {
+        if(Num * frac1.Denom  - frac1.Num *Denom > 0){
             return 1;
-        }else if(upnum * K.downnum == downnum*K.upnum ){
+        }else if(Num * frac1.Denom  - frac1.Num*Denom == 0){
             return 0;
         }else{
             return -1;
         }
-    }
-}
+    } // end compare
+    /** Returns a string that contains this fraction in lowest terms.
+     * @return A string containing this fraction.
+     */
+    public String toFracString()
+    {
+        String result;
+        if (Denom == 1)
+            result = Integer.toString(Num);
+        else
+            result = Num + "/" + Denom;
+        return result;
+    } // end toString
 
+    /** Reduces this fraction to its lowest terms.
+     *  Update numerator and denominator accordingly.
+     */
+
+
+}
