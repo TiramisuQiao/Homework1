@@ -1,6 +1,7 @@
 package Project2;
+import java.lang.Math.*;
 
-public class MixFraction {
+public class MixFraction implements MixFractionInterface{
     private int IntSection;
     private int UpNum;
     private int DownNum;
@@ -17,14 +18,23 @@ public class MixFraction {
         return 1;
     }
 
-
-    public void MixFraction(int IntSection, int UpNum, int DownNum){
-        this.DownNum = java.lang.Math.abs(DownNum);
-        this.IntSection = java.lang.Math.abs(IntSection);
-        this.UpNum = java.lang.Math.abs(UpNum);
-        this.sgn = CheckSign(IntSection,UpNum,DownNum);
-        this.TrueUpNum = sgn * (java.lang.Math.abs(UpNum) + java.lang.Math.abs(IntSection * DownNum));
-
+    public MixFraction(){
+        this.DownNum = 1;
+        this.IntSection = 1;
+        this.UpNum = 1;
+        this.sgn = 1;
+        this.TrueUpNum = 2;
+    }
+    public MixFraction(int IntSection, int UpNum, int DownNum) {
+        if (DownNum == 0) {
+            System.out.println("Wrong input");
+        } else {
+            this.sgn = CheckSign(IntSection, UpNum, DownNum);
+            this.DownNum = Math.abs(DownNum);
+            this.IntSection = Math.abs(IntSection);
+            this.UpNum = Math.abs(UpNum);
+            this.TrueUpNum = sgn * (Math.abs(UpNum) + Math.abs(IntSection * DownNum));
+        }
     }
     private int gcd(int a,int b) {
         int r;
@@ -35,43 +45,69 @@ public class MixFraction {
         }
         return a;
     }
-    private MixFraction SimplifyMixedFraction(int a,int b){
-        a=java.lang.Math.abs(a);
-        b=java.lang.Math.abs(b);
-        int CommonDivision = gcd(b,a);
-        a = a / CommonDivision;
-        b = b / CommonDivision;
-        int Division =a/b;
-        a = a - Division * b;
-        MixFraction A = new MixFraction();
-        A.MixFraction(Division,a,b);
-        return A;
+    private MixFraction(int TrueUpNum,int DownNum){
+        this.TrueUpNum = TrueUpNum;
+        this.DownNum = DownNum;
+        int sign = 0;
+        if(TrueUpNum * DownNum < 0){
+            sign = -1;
+        }else if(TrueUpNum * DownNum > 0){
+            sign = 1;
+        }
+        TrueUpNum =java.lang.Math.abs(TrueUpNum);
+        DownNum =java.lang.Math.abs(DownNum);
+        int CommonDivision = gcd(DownNum,TrueUpNum);
+        TrueUpNum = TrueUpNum / CommonDivision;
+        DownNum = DownNum / CommonDivision;
+        int Division = TrueUpNum/DownNum;
+        TrueUpNum = TrueUpNum - Division * DownNum;
+        //System.out.println(sign*Division+" "+a+" "+b);
+        this.sgn = sign;
+        this.IntSection = Division;
+        this.UpNum = sign*TrueUpNum;
+        this.DownNum = DownNum;
     }
     public MixFraction AddMixFraction(MixFraction A){
-        TrueUpNum = TrueUpNum * A.DownNum + DownNum * A.TrueUpNum;
-        DownNum = DownNum * A.DownNum;
-        return SimplifyMixedFraction(TrueUpNum,DownNum);
+        int resUp = TrueUpNum * A.DownNum + DownNum * A.TrueUpNum;
+        int resDown = DownNum * A.DownNum;
+        MixFraction res = new MixFraction(resUp,resDown);
+        return res;
     }
     public MixFraction MinusMixFraction(MixFraction A){
-        TrueUpNum = TrueUpNum * A.DownNum - DownNum * A.TrueUpNum;
-        DownNum = DownNum * A.DownNum;
-        return SimplifyMixedFraction(TrueUpNum,DownNum);
+        int resUp = TrueUpNum * A.DownNum - DownNum * A.TrueUpNum;
+        int resDown = DownNum * A.DownNum;
+        //System.out.println(resUp + " "+ resDown);
+        MixFraction res = new MixFraction(resUp,resDown);
+        return res;
     }
     public MixFraction MultiMixFraction(MixFraction A){
-        TrueUpNum = TrueUpNum * A.TrueUpNum;
-        DownNum = DownNum * A.DownNum;
-        return SimplifyMixedFraction(TrueUpNum,DownNum);
+        int resUp = TrueUpNum * A.TrueUpNum;
+        int resDown = DownNum * A.DownNum;
+        //System.out.println(resUp + " "+ resDown);
+        MixFraction res = new MixFraction(resUp,resDown);
+        return res;
     }
     public MixFraction DivideMixFraction(MixFraction A){
-        TrueUpNum = TrueUpNum * A.DownNum;
-        DownNum = DownNum * A.TrueUpNum ;
-        return SimplifyMixedFraction(TrueUpNum,DownNum);
+        int resUp = TrueUpNum * A.DownNum;
+        int resDown = DownNum * A.TrueUpNum ;
+        //System.out.println(resUp + " "+ resDown);
+        MixFraction res = new MixFraction(resUp,resDown);
+        return res;
     }
-    public void ShowMixResult(MixFraction A){
-        String IntSectionS=String.valueOf(sgn * java.lang.Math.abs(A.IntSection));
-        String UpNumS = String.valueOf(A.UpNum);
-        String DownNumS = String.valueOf(A.DownNum);
-        System.out.println(IntSectionS + " "+ UpNumS+"/"+DownNumS);
+    public String ShowMixResult() {
+        String res = new String();
+        if (UpNum == 0) {
+            res = IntSection + " ";
+        } else {
+            if(sgn < 0) {
+                res += '-';
+            }
+            String IntSectionS = String.valueOf(Math.abs(IntSection));
+            String UpNumS = String.valueOf(java.lang.Math.abs(UpNum));
+            String DownNumS = String.valueOf(java.lang.Math.abs(DownNum));
+            res = res +IntSectionS + " " + UpNumS + "/" + DownNumS;
+        }
+        return res;
     }
 
 }

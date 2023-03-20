@@ -139,6 +139,6 @@ public class Fraction implements FractionInterface
             result = Num + "/" + Denom;
         }
         return result;
-    } /
+    }
 
 }

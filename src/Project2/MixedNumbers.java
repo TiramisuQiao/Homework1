@@ -1,26 +1,13 @@
 package Project2;
 
 public class MixedNumbers {
-//    public void ShowMixResult(MixFraction A){
-//        if(A.sgn == -1){
-//            System.out.println("-"+A.Int);
-//        }
-//    }
     public static void main(String [] args) {
-        MixFraction FracA = new MixFraction();
-        MixFraction FracB = new MixFraction();
-        MixFraction FracC = new MixFraction();
-        MixFraction FracD = new MixFraction();
-        //MixFraction FracE = new MixFraction();
-        ////FracA.MixFraction(1,1,2);
-        ////FracB.MixFraction(2,1,4);
-        ////FracC.ShowMixResult(FracA.AddMixFraction(FracB));
-
-        FracA.MixFraction(1,1,2);
-        FracB.MixFraction(-2,1,4);
-        FracD.ShowMixResult(FracB.MinusMixFraction(FracA));
-
-        //FracB.MixFraction(2,1,4);
-        //FracD.MixFraction
+        MixFraction FracA = new MixFraction(1,1,2);
+        MixFraction FracB = new MixFraction(-2,1,4);
+        System.out.println("1 1/2 + -2 1/4 = "+(FracA.AddMixFraction(FracB)).ShowMixResult());
+        System.out.println("1 1/2 - -2 1/4 = "+(FracA.MinusMixFraction(FracB)).ShowMixResult());
+        System.out.println("-2 1/4 - 1 1/2 = "+(FracB.MinusMixFraction(FracA)).ShowMixResult());
+        System.out.println("1 1/2 * -2 1/4 = "+(FracA.MultiMixFraction(FracB).ShowMixResult()));
+        System.out.println("1 1/2 / -2 1/4 = "+(FracA.DivideMixFraction(FracB)).ShowMixResult());
     }
 }

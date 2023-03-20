@@ -49,7 +49,7 @@ public class Charater implements ChacaterInterface {
 		Random r = new Random();
 		this.percentage=percentage;
 		//random the percentage;
-		float randomPer = r.nextFloat(); // 生成[0,1.0]区间的小数
+		float randomPer = r.nextFloat(); //random a float number in (0,1)
 		if(percentage >= 0.00) {
 			morality=0.2f;
 		}else {
