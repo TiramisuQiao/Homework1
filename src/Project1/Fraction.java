@@ -18,11 +18,13 @@ public class Fraction implements FractionInterface
 
         return result;
     }
-    private void simplified()
+    private Fraction simplified()
     {
         int GCD = gcd(Num, Denom);
         Num/=GCD;
         Denom/=GCD;
+        Fraction res = new Fraction(Num,Denom);
+        return res;
     }
 
     /** Constructor: set the default number of the fraction  */
@@ -35,11 +37,10 @@ public class Fraction implements FractionInterface
      * Constructor:
      * @param Num the numerator of the fraction
      * @param Denom the denominator of the fraction
-     * @return the Fraction that should be initialized
      * @throws NullPointerException if Num == 0
      */
     public Fraction(int Num, int Denom) {
-        if (Num == 0) {
+        if (Denom == 0) {
             System.out.println("Wrong input");
         } else {
             this.Num = Num;
@@ -56,7 +57,7 @@ public class Fraction implements FractionInterface
         int resDenom = Denom * frac1.Denom;
         int resNum = Num * frac1.Denom + frac1.Num*Denom;
         Fraction res = new Fraction(resNum,resDenom);
-        return res;
+        return res.simplified();
     }
 
     /** Subtracts two fractions.
@@ -68,7 +69,7 @@ public class Fraction implements FractionInterface
         int resDenom = Denom * frac1.Denom;
         int resNum = Num * frac1.Denom  - frac1.Num*Denom;
         Fraction res = new Fraction(resNum,resDenom);
-        return res;
+        return res.simplified();
     }
 
     /** Multiply two fractions.
@@ -80,7 +81,7 @@ public class Fraction implements FractionInterface
         int resDenom = Denom * frac1.Denom;
         int resNum = Num * frac1.Num;
         Fraction res = new Fraction(resNum,resDenom);
-        return res;
+        return res.simplified();
     } // end multiply
 
     /** Divides two fractions.
@@ -92,7 +93,7 @@ public class Fraction implements FractionInterface
         int resDenom = Denom * frac1.Num;
         int resNum = Num * frac1.Denom;
         Fraction res = new Fraction(resNum,resDenom);
-        return res;
+        return res.simplified();
     }
 
     /** Returns reciprocal of this fraction.
@@ -104,7 +105,7 @@ public class Fraction implements FractionInterface
             System.out.println("No reciprocal");
         }else{
             Fraction res = new Fraction(Denom,Num);
-            return res;
+            return res.simplified();
         }
         return null;
     }
@@ -132,16 +133,12 @@ public class Fraction implements FractionInterface
     public String toFracString()
     {
         String result;
-        if (Denom == 1)
+        if (Denom == 1) {
             result = Integer.toString(Num);
-        else
+        }else {
             result = Num + "/" + Denom;
+        }
         return result;
-    } // end toString
-
-    /** Reduces this fraction to its lowest terms.
-     *  Update numerator and denominator accordingly.
-     */
-
+    } /
 
 }
